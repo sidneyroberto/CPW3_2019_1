@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { database } from '../utils/firebaseUtils';
 
 class Materiais extends Component {
 
@@ -18,6 +19,17 @@ class Materiais extends Component {
          */
         this.aoAlterarValor =
             this.aoAlterarValor.bind(this);
+        this.salvar = this.salvar.bind(this);
+    }
+
+    salvar(evento) {
+        evento.preventDefault();
+
+        let material = this.state;
+
+        database
+            .ref('materiais')
+            .push(material);
     }
 
     aoAlterarValor(evento) {
@@ -33,7 +45,7 @@ class Materiais extends Component {
 
                 <div className="row">
                     <div className="col-md-6">
-                        <form>
+                        <form onSubmit={this.salvar}>
                             <div className="form-group">
                                 <label>Descrição</label>
                                 <input

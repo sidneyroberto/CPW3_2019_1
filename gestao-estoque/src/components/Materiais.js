@@ -7,9 +7,12 @@ class Materiais extends Component {
         super();
 
         this.state = {
-            descricao: '',
-            marca: '',
-            categoria: ''
+            material: {
+                descricao: '',
+                marca: '',
+                categoria: 'Eletrônicos'
+            },
+            categorias: []
         };
 
         /*
@@ -22,23 +25,53 @@ class Materiais extends Component {
         this.salvar = this.salvar.bind(this);
     }
 
+    componentDidMount() {
+        database
+            .ref('categorias')
+            .once('value')
+            .then(
+                snapshot => {
+                    const valor = snapshot.val();
+                    const chaves = Object.keys(valor);
+                    let categorias = [];
+                    chaves.map(chave => categorias.push({ id: chave, valor: valor[chave].nome }));
+                    this.setState({categorias});
+                },
+                erro => console.log(erro)
+            );
+    }
+
     salvar(evento) {
         evento.preventDefault();
 
-        let material = this.state;
+        let material = this.state.material;
 
         database
             .ref('materiais')
-            .push(material);
+            .push(material)
+            .then(
+                materialSalvo => console.log(materialSalvo),
+                erro => console.log(erro)
+            )
+            .catch(erro => console.log(erro));
     }
 
     aoAlterarValor(evento) {
         const valor = evento.target.value;
         const nome = evento.target.name;
-        this.setState({ [nome]: valor });
+        let material = {...this.state.material};
+        material[nome] = valor;
+        this.setState({material});
     }
 
     render() {
+
+        const itensCategoria = this.state.categorias.map(categoria => {
+            return (
+                <option key={categoria.id} value={categoria.valor}>{categoria.valor}</option>
+            );
+        });
+
         return (
             <div>
                 <h3>Novo material</h3>
@@ -50,7 +83,7 @@ class Materiais extends Component {
                                 <label>Descrição</label>
                                 <input
                                     onChange={this.aoAlterarValor}
-                                    value={this.state.descricao}
+                                    value={this.state.material.descricao}
                                     name="descricao"
                                     className="form-control"
                                     required
@@ -60,7 +93,7 @@ class Materiais extends Component {
                                 <label>Marca</label>
                                 <input
                                     onChange={this.aoAlterarValor}
-                                    value={this.state.marca}
+                                    value={this.state.material.marca}
                                     name="marca"
                                     className="form-control"
                                     required
@@ -70,14 +103,11 @@ class Materiais extends Component {
                                 <label>Categoria</label>
                                 <select
                                     onChange={this.aoAlterarValor}
-                                    value={this.state.categoria}
+                                    value={this.state.material.categoria}
                                     name="categoria"
                                     required
                                     className="form-control">
-                                    <option>Eletrônicos</option>
-                                    <option>Eletrodomésticos</option>
-                                    <option>Vestuário</option>
-                                    <option>Higiene Pessoal</option>
+                                    {itensCategoria}
                                 </select>
                             </div>
 

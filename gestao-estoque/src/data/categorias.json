@@ -1,0 +1,16 @@
+{
+    "categorias": {
+        "CAT1": {
+            "nome": "Eletrônicos"
+        },
+        "CAT2": {
+            "nome": "Eletrodomésticos"
+        },
+        "CAT3": {
+            "nome": "Vestuário"
+        },
+        "CAT4": {
+            "nome": "Higiene Pessoal"
+        }
+    }
+}

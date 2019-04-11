@@ -1,5 +1,9 @@
-import React, { Component } from 'react';
-import { database } from '../utils/firebaseUtils';
+import React, {
+    Component
+} from 'react';
+import {
+    database
+} from '../utils/firebaseUtils';
 
 class Materiais extends Component {
 
@@ -11,7 +15,10 @@ class Materiais extends Component {
                 descricao: '',
                 marca: '',
                 categoria: 'Eletrônicos'
-            }
+            },
+            erro: false,
+            sucesso: false,
+            categorias: []
         };
 
         /*
@@ -22,6 +29,27 @@ class Materiais extends Component {
         this.aoAlterarValor =
             this.aoAlterarValor.bind(this);
         this.salvar = this.salvar.bind(this);
+    }
+
+    /*
+        Intercepta o momento em que
+        o componente foi montado na tela
+    */
+    componentDidMount() {
+        // Retorna todas as categorias do banco
+        database
+            .ref('categorias')
+            .once('value')
+            .then(
+                snapshot => {
+                    const valor = snapshot.val();
+                    const chaves = Object.keys(valor);
+                    let categorias = [];
+                    chaves.map(chave => categorias.push({ id: chave, valor: valor[chave].nome }));
+                    this.setState({ categorias });
+                },
+                erro => console.log(erro)
+            );
     }
 
     salvar(evento) {
@@ -39,11 +67,27 @@ class Materiais extends Component {
                         marca: '',
                         categoria: 'Eletrônicos'
                     };
-                    this.setState({ material });
+                    this.setState({
+                        material,
+                        erro: false,
+                        sucesso: true
+                    });
                 },
-                erro => console.log(erro)
+                erro => {
+                    console.log(erro);
+                    this.setState({
+                        erro: true,
+                        sucesso: false
+                    });
+                }
             )
-            .catch(erro => console.log(erro));
+            .catch(erro => {
+                console.log(erro);
+                this.setState({
+                    erro: true,
+                    sucesso: false
+                });
+            });
     }
 
     aoAlterarValor(evento) {
@@ -51,38 +95,67 @@ class Materiais extends Component {
         const nome = evento.target.name;
 
         // Pega a propriedade "material" do state do componente
-        let material = { ...this.state.material };
+        let material = {
+            ...this.state.material
+        };
         /*
          * Altera a subpropriedade de "material" cujo nome
          * corresponde ao nome do campo que está sendo alterado
          */
         material[nome] = valor;
 
-        this.setState({ material });
+        this.setState({
+            material
+        });
     }
 
     render() {
+
+        const itensCategoria = this.state.categorias.map(
+            categoria => {
+                return (
+                    <option key={categoria.id} value={categoria.valor}>
+                        {categoria.valor}
+                    </option>
+                );
+            }
+        );
+
         return (
             <div>
                 <h3>Novo material</h3>
 
                 <br />
 
-                <div className="row">
-                    <div className="col">
-                        <span className="alert alert-success">
-                            Material salvo
-                        </span>
+                {
+                    /*
+                        Se o sucesso for true, 
+                        renderiza a div
+                    */
+                    this.state.sucesso &&
+                    <div className="row">
+                        <div className="col">
+                            <span className="alert alert-success">
+                                Material salvo
+                                </span>
+                        </div>
                     </div>
-                </div>
+                }
 
-                <div className="row">
-                    <div className="col">
-                        <span className="alert alert-danger">
-                            Ocorreu um problema ao tentar salvar o material
-                        </span>
+                {
+                    /*
+                        Se erro for true,
+                        renderiza a div
+                    */
+                    this.state.erro &&
+                    <div className="row">
+                        <div className="col">
+                            <span className="alert alert-danger">
+                                Ocorreu um problema ao tentar salvar o material
+                            </span>
+                        </div>
                     </div>
-                </div>
+                }
 
                 <br />
 
@@ -92,6 +165,7 @@ class Materiais extends Component {
                             <div className="form-group">
                                 <label>Descrição</label>
                                 <input
+                                    placeholder="Digite a descrição"
                                     onChange={this.aoAlterarValor}
                                     value={this.state.material.descricao}
                                     name="descricao"
@@ -102,6 +176,7 @@ class Materiais extends Component {
                             <div className="form-group">
                                 <label>Marca</label>
                                 <input
+                                    placeholder="Digite a marca"
                                     onChange={this.aoAlterarValor}
                                     value={this.state.material.marca}
                                     name="marca"
@@ -117,10 +192,7 @@ class Materiais extends Component {
                                     name="categoria"
                                     required
                                     className="form-control">
-                                    <option value="Eletrônicos">Eletrônicos</option>
-                                    <option value="Eletrodomésticos">Eletrodomésticos</option>
-                                    <option value="Vestuário">Vestuário</option>
-                                    <option value="Higiene Pessoal">Higiene Pessoal</option>
+                                    {itensCategoria}
                                 </select>
                             </div>
 

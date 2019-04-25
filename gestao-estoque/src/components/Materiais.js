@@ -18,17 +18,20 @@ class Materiais extends Component {
             },
             erro: false,
             sucesso: false,
-            categorias: []
+            categorias: [],
+            materiais: []
         };
 
         /*
          * Dá acesso a tudo o que foi definido
-         * dentro do construtor para o método
-         * aoAlterarValor.
+         * dentro do construtor para os métodos
+         * abaixo.
          */
         this.aoAlterarValor =
             this.aoAlterarValor.bind(this);
         this.salvar = this.salvar.bind(this);
+        this.recuperarMateriais =
+            this.recuperarMateriais.bind(this);
     }
 
     /*
@@ -43,10 +46,33 @@ class Materiais extends Component {
             .then(
                 snapshot => {
                     const valor = snapshot.val();
-                    const chaves = Object.keys(valor);
-                    let categorias = [];
-                    chaves.map(chave => categorias.push({ id: chave, valor: valor[chave].nome }));
-                    this.setState({ categorias });
+                    if (valor) {
+                        const chaves = Object.keys(valor);
+                        let categorias = [];
+                        chaves.map(chave => categorias.push({ id: chave, valor: valor[chave].nome }));
+                        this.setState({ categorias });
+                    }
+                },
+                erro => console.log(erro)
+            );
+
+        this.recuperarMateriais();
+    }
+
+    recuperarMateriais() {
+        // Retorna todos os materiais do banco
+        database
+            .ref('materiais')
+            .once('value')
+            .then(
+                snapshot => {
+                    const valor = snapshot.val();
+                    if (valor) {
+                        const chaves = Object.keys(valor);
+                        let materiais = [];
+                        chaves.map(chave => materiais.push({ id: chave, valor: valor[chave] }));
+                        this.setState({ materiais });
+                    }
                 },
                 erro => console.log(erro)
             );
@@ -62,6 +88,8 @@ class Materiais extends Component {
             .push(material)
             .then(
                 () => {
+                    this.recuperarMateriais();
+
                     let material = {
                         descricao: '',
                         marca: '',
@@ -117,6 +145,18 @@ class Materiais extends Component {
                     <option key={categoria.id} value={categoria.valor}>
                         {categoria.valor}
                     </option>
+                );
+            }
+        );
+
+        const listaMateriais = this.state.materiais.map(
+            material => {
+                return (
+                    <tr key={material.id}>
+                        <td>{material.valor.descricao}</td>
+                        <td>{material.valor.marca}</td>
+                        <td>{material.valor.categoria}</td>
+                    </tr>
                 );
             }
         );
@@ -203,6 +243,35 @@ class Materiais extends Component {
                         </form>
                     </div>
                 </div>
+
+
+                <br />
+
+                {
+                    (this.state.materiais.length === 0) &&
+                    <span>Nenhum material cadastrado</span>
+                }
+
+                {
+                    (this.state.materiais.length > 0) &&
+                    <div className="row">
+                        <div className="col">
+                            <table className="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Descrição</th>
+                                        <th>Marca</th>
+                                        <th>Categoria</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {listaMateriais}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+
             </div>
         );
     }

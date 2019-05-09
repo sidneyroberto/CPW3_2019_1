@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "billabong";
+  src: url(../fonts/Billabong.ttf);
+}
+
+#banner {
+  padding: 10px;
+}

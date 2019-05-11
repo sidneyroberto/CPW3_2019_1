@@ -3,6 +3,32 @@
   src: url(../fonts/Billabong.ttf);
 }
 
+body {
+  background-color: #f9f9f9;
+}
+
 #banner {
-  padding: 10px;
+  padding: 17px 12px 10px 10px;
+  background-color: white;
+  border-bottom: 1px solid #eee;
+}
+
+#banner img {
+  width: 27px;
+  padding: 10px 0px 10px 10px;
+  vertical-align: middle;
+}
+
+#banner #separador {
+  font-size: 200%;
+  vertical-align: -5px;
+  padding: 0px 10px 0px 10px;
+  opacity: 0.5;
+  font-weight: lighter;
+}
+
+#banner #titulo {
+  font-family: "billabong";
+  font-size: 220%;
+  vertical-align: -5px;
 }

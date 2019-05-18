@@ -10,6 +10,10 @@ body {
 #banner {
   padding: 17px 12px 10px 10px;
   background-color: white;
+}
+
+#banner,
+#perfilUsuario {
   border-bottom: 1px solid #eee;
 }
 
@@ -31,4 +35,77 @@ body {
   font-family: "billabong";
   font-size: 220%;
   vertical-align: -5px;
+}
+
+#usuario {
+  display: table;
+  padding: 13px 0px;
+  width: 100%;
+}
+
+#thumb,
+#edicao {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#thumb {
+  width: 20%;
+  padding: 15px;
+}
+
+#thumb img {
+  border-radius: 50%;
+  width: 78px;
+}
+
+#edicao {
+  width: 80%;
+  padding-top: 10px;
+}
+
+#config {
+  padding-bottom: 15px;
+}
+
+#config * {
+  vertical-align: middle;
+}
+
+#config span {
+  font-size: 130%;
+  padding-right: 10px;
+}
+
+#config img {
+  width: 24px;
+}
+
+#config,
+#areaBotao {
+  width: 100%;
+}
+
+#areaBotao button {
+  font-weight: bold;
+  background-color: transparent;
+  border: 1px solid #d0d0d0;
+  width: 94%;
+  border-radius: 5px;
+  font-size: 90%;
+  height: 35px;
+}
+
+#bio {
+  padding: 0px 15px 30px 15px;
+}
+
+#bio span {
+  display: block;
+  font-size: 85%;
+  line-height: 21px;
+}
+
+#nomeUsuario {
+  font-weight: bold;
 }

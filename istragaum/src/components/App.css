@@ -109,3 +109,23 @@ body {
 #nomeUsuario {
   font-weight: bold;
 }
+
+#botoesVisualizacao {
+  border-bottom: 1px solid #eeeeee;
+  padding: 10px;
+  text-align: center;
+}
+
+.iconeVisualizacao {
+  width: 25px;
+  vertical-align: top;
+  margin: 0px 50px;
+}
+
+.iconeVisualizacao:first-child {
+  margin-left: 20px;
+}
+
+.iconeVisualizacao:last-child {
+  margin-right: 20px;
+}

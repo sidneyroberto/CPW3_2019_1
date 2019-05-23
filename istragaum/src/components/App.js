@@ -4,6 +4,9 @@ import './App.css';
 import logo from '../img/logo.png';
 import thumb from '../img/thumb.jpg';
 import engrenagem from '../img/engrenagem.png';
+import continuo from '../img/continuo.png';
+import grade from '../img/grade.png';
+import favoritas from '../img/favoritas.png';
 
 class App extends Component {
   render() {
@@ -44,7 +47,23 @@ class App extends Component {
 
 
 
-        <div id="botoesVisualizacao"></div>
+        <div id="botoesVisualizacao">
+          <img
+            src={grade}
+            alt="Visualização em grade"
+            className="iconeVisualizacao" />
+          <img
+            src={continuo}
+            alt="Visualização em lista"
+            className="iconeVisualizacao" />
+          <img
+            src={favoritas}
+            alt="Favoritos"
+            className="iconeVisualizacao" />
+        </div>
+
+
+
 
         <div id="conteiner"></div>
 

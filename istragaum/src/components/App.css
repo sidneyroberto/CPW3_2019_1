@@ -144,6 +144,11 @@ body {
   display: block;
 }
 
+.imagemLista .areaFavorito button {
+  border: none;
+  background-color: transparent;
+}
+
 .imagemLista .areaFavorito img {
   width: 36px;
 }

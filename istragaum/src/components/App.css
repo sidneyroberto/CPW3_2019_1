@@ -12,8 +12,7 @@ body {
   background-color: white;
 }
 
-#banner,
-#perfilUsuario {
+#banner, #perfilUsuario {
   border-bottom: 1px solid #eee;
 }
 
@@ -43,8 +42,7 @@ body {
   width: 100%;
 }
 
-#thumb,
-#edicao {
+#thumb, #edicao {
   display: table-cell;
   vertical-align: middle;
 }
@@ -81,8 +79,7 @@ body {
   width: 24px;
 }
 
-#config,
-#areaBotao {
+#config, #areaBotao {
   width: 100%;
 }
 
@@ -119,7 +116,7 @@ body {
 .iconeVisualizacao {
   width: 25px;
   vertical-align: top;
-  margin: 0px 50px;
+  margin: 0px 40px;
 }
 
 .iconeVisualizacao:first-child {
@@ -128,4 +125,25 @@ body {
 
 .iconeVisualizacao:last-child {
   margin-right: 20px;
+}
+
+.imagemLista {
+  padding: 10px 0px 5px 0px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.imagemLista .imagem {
+  object-fit: cover;
+  width: 95vw;
+  height: 95vw;
+  border-radius: 10px;
+}
+
+.imagemLista .areaFavorito {
+  display: block;
+}
+
+.imagemLista .areaFavorito img {
+  width: 36px;
 }

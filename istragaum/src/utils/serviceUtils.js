@@ -1,6 +1,6 @@
 export const URL_API = 'https://pixabay.com/api/?';
 
-export const CHAVE_API = '10489463-93acebedcf5127c96f8f30bc8';
+export const CHAVE_API = 'COLOQUE_SUA_CHAVE_AQUI';
 
 export const LINGUA = 'pt';
 
